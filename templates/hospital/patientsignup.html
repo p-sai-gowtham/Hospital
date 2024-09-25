@@ -99,9 +99,9 @@
               <div class="form-group">
                 {% render_field patientForm.mobile class="form-control" pattern="[6789][0-9]{9}" placeholder="Mobile Number" %}
               </div>
-              <div class="form-group">
+              {% comment %} <div class="form-group">
                 {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
-              </div>
+              </div> {% endcomment %}
 
             </div>
           </div>

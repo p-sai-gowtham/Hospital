@@ -29,14 +29,18 @@ class Doctor(models.Model):
 
 
 class Patient(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
-    profile_pic= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
-    address = models.CharField(max_length=40)
-    mobile = models.CharField(max_length=20,null=False)
-    symptoms = models.CharField(max_length=100,null=False)
-    assignedDoctorId = models.PositiveIntegerField(null=True)
-    admitDate=models.DateField(auto_now=True)
-    status=models.BooleanField(default=False)
+    hospital = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'hospital'})
+    name = models.CharField(max_length=255)
+    sex = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
+    age = models.IntegerField()
+    referred_by = models.CharField(max_length=255)
+    test_description = models.TextField()
+    report = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=20, choices=[('to_do', 'To Do'), ('in_review', 'In Review'), ('done', 'Done')], default='to_do')
+
+    def __str__(self):
+        return self.name
+
     @property
     def get_name(self):
         return self.user.first_name+" "+self.user.last_name
