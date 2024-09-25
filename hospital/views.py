@@ -150,8 +150,6 @@ def admin_dashboard_view(request):
     patientcount=models.Patient.objects.all().filter(status=True).count()
     pendingpatientcount=models.Patient.objects.all().filter(status=False).count()
 
-    appointmentcount=models.Appointment.objects.all().filter(status=True).count()
-    pendingappointmentcount=models.Appointment.objects.all().filter(status=False).count()
     mydict={
     'doctors':doctors,
     'patients':patients,
@@ -159,8 +157,6 @@ def admin_dashboard_view(request):
     'pendingdoctorcount':pendingdoctorcount,
     'patientcount':patientcount,
     'pendingpatientcount':pendingpatientcount,
-    'appointmentcount':appointmentcount,
-    'pendingappointmentcount':pendingappointmentcount,
     }
     return render(request,'hospital/admin_dashboard.html',context=mydict)
 
@@ -291,7 +287,7 @@ def admin_patient_view(request):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_view_patient_view(request):
-    patients=models.Patient.objects.all().filter(status=True)
+    patients=models.Patient.objects.all()
     return render(request,'hospital/admin_view_patient.html',{'patients':patients})
 
 
@@ -305,30 +301,35 @@ def delete_patient_from_hospital_view(request,pk):
     patient.delete()
     return redirect('admin-view-patient')
 
-
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def update_patient_view(request,pk):
-    patient=models.Patient.objects.get(id=pk)
-    user=models.User.objects.get(id=patient.user_id)
+def update_patient_view(request, pk):
+    patient = models.Patient.objects.get(id=pk)
+    user = models.User.objects.get(id=patient.user_id)
 
-    userForm=forms.PatientUserForm(instance=user)
-    patientForm=forms.PatientForm(request.FILES,instance=patient)
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST,instance=user)
-        patientForm=forms.PatientForm(request.POST,request.FILES,instance=patient)
+    # Initialize forms with instances for pre-filling
+    userForm = forms.PatientUserForm(instance=user)
+    patientForm = forms.PatientForm(request.FILES or None, instance=patient)  # Make sure to use request.FILES or None
+
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+    
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST, instance=user)
+        patientForm = forms.PatientForm(request.POST, request.FILES, instance=patient)
+        
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
-            user.set_password(user.password)
-            user.save()
-            patient=patientForm.save(commit=False)
-            patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
-            patient.save()
+            user = userForm.save(commit=False)  # Save user but don't commit yet
+            user.set_password(userForm.cleaned_data['password'])  # Set new password
+            user.save()  # Commit user save
+            
+            patient = patientForm.save(commit=False)  # Save patient but don't commit yet
+            patient.status = True
+            patient.assignedDoctorId = request.POST.get('assignedDoctorId')
+            patient.save()  # Commit patient save
+            
             return redirect('admin-view-patient')
-    return render(request,'hospital/admin_update_patient.html',context=mydict)
+    
+    return render(request, 'hospital/admin_update_patient.html', context=mydict)
 
 
 
@@ -350,14 +351,13 @@ def admin_add_patient_view(request):
 
             patient=patientForm.save(commit=False)
             patient.user=user
-            patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+            patient.status='to_do'
             patient.save()
 
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
 
-        return HttpResponseRedirect('admin-view-patient')
+        return HttpResponseRedirect('admin-dashboard')
     return render(request,'hospital/admin_add_patient.html',context=mydict)
 
 
@@ -569,21 +569,11 @@ def reject_appointment_view(request,pk):
 def doctor_dashboard_view(request):
     #for three cards
     patientcount=models.Patient.objects.all().filter(status=True,assignedDoctorId=request.user.id).count()
-    appointmentcount=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).count()
-    patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedDoctorName=request.user.first_name).count()
-
-    #for  table in doctor dashboard
-    appointments=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).order_by('-id')
     patientid=[]
-    for a in appointments:
-        patientid.append(a.patientId)
     patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
-    appointments=zip(appointments,patients)
+
     mydict={
     'patientcount':patientcount,
-    'appointmentcount':appointmentcount,
-    'patientdischarged':patientdischarged,
-    'appointments':appointments,
     'doctor':models.Doctor.objects.get(user_id=request.user.id), #for profile picture of doctor in sidebar
     }
     return render(request,'hospital/doctor_dashboard.html',context=mydict)

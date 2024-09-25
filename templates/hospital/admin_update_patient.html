@@ -65,13 +65,13 @@
               {% render_field userForm.username class="form-control" placeholder="Username" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.address class="form-control" placeholder="Address" %}
+              {% render_field patientForm.sex class="form-control" placeholder="Sex" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.symptoms class="form-control" placeholder="Symptoms" %}
+              {% render_field patientForm.test_description class="form-control" placeholder="Test" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.profile_pic class="form-control" placeholder="Profile Picture" %}
+              {% render_field patientForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
             </div>
           </div>
           <div class="col-md-6">
@@ -82,10 +82,21 @@
               {% render_field userForm.password class="form-control" placeholder="Password" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.mobile class="form-control" placeholder="Mobile" %}
+              {% render_field patientForm.age  class="form-control" placeholder="Age" %}
             </div>
             <div class="form-group">
               {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.symptoms class="form-control" placeholder="Symptoms" %}
+            </div>
+            <div class="form-group">
+              <lable>Reports</lable>
+              {% render_field patientForm.report class="form-control" placeholder="Reports" %}
+            </div>
+            <div class="form-group">
+              <lable>Scans</lable>
+              {% render_field patientForm.scans class="form-control" placeholder="Scans" %}
             </div>
           </div>
         </div>
