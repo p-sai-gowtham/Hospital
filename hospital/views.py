@@ -13,7 +13,7 @@ from django.contrib.auth import logout
 #logout 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return render(request,'hospital/index.html') 
 
 # Create your views here.
 def home_view(request):
@@ -413,7 +413,7 @@ def admin_discharge_patient_view(request):
 def discharge_patient_view(request,pk):
     patient=models.Patient.objects.get(id=pk)
     days=(date.today()-patient.admitDate) #2 days, 0:00:00
-    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+    assignedDoctor=models.User.objects.all().filter(id=patient.assigned_doctor_id) 
     d=days.days # only how many day that is 2
     patientDict={
         'patientId':pk,
@@ -526,6 +526,7 @@ def admin_add_appointment_view(request):
             appointment.patientId=request.POST.get('patientId')
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
             appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            appointment.symptoms=models.Patient.objects.get(user_id=request.POST.get('patientId')).symptoms
             appointment.status=True
             appointment.save()
         return HttpResponseRedirect('admin-view-appointment')
@@ -569,21 +570,44 @@ def reject_appointment_view(request,pk):
 
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
-#---------------------------------------------------------------------------------
+# #---------------------------------------------------------------------------------
+# @login_required(login_url='doctorlogin')
+# @user_passes_test(is_doctor)
+# def doctor_dashboard_view(request):
+#     #for three cards
+#     patientcount=models.Patient.objects.all().filter(status=True,assigned_doctor_id=request.user).count()
+#     print(patientcount,request.user)    
+#     patientid=[] 
+#     patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
+ 
+#     mydict={
+#     'patientcount':patientcount,
+#     'doctor':models.Doctor.objects.get(user_id=request.user.id), #for profile picture of doctor in sidebar
+#     }
+#     return render(request,'hospital/doctor_dashboard.html',context=mydict) 
+
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_dashboard_view(request):
-    #for three cards
-    patientcount=models.Patient.objects.all().filter(status=True,assignedDoctorId=request.user.id).count()
-    patientid=[]
-    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
+    # Get the Doctor instance for the logged-in user
+    doctor = models.Doctor.objects.get(user=request.user)
+    
+    # Use the property to get the count of assigned patients
+    patientcount = doctor.assigned_patients_count
+    assigned_patients = models.Patient.objects.filter(assigned_doctor=doctor)
 
-    mydict={
-    'patientcount':patientcount,
-    'doctor':models.Doctor.objects.get(user_id=request.user.id), #for profile picture of doctor in sidebar
+    # print(assigned_patients)  
+    # # Optionally, if you need a list of patients
+    # patients = models.Patient.objects.filter(status=True, assigned_doctor=doctor).order_by('-id')
+    # print(patients) 
+    # Prepare context for rendering
+    mydict = {
+        'patientcount': patientcount,
+        'doctor': doctor,  # for profile picture of doctor in sidebar
+        'patients': assigned_patients,
     }
-    return render(request,'hospital/doctor_dashboard.html',context=mydict)
-
+    
+    return render(request, 'hospital/doctor_dashboard.html', context=mydict)
 
 
 @login_required(login_url='doctorlogin')
@@ -601,9 +625,13 @@ def doctor_patient_view(request):
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
 def doctor_view_patient_view(request):
-    patients=models.Patient.objects.all().filter(status=True,assignedDoctorId=request.user.id)
-    doctor=models.Doctor.objects.get(user_id=request.user.id) #for profile picture of doctor in sidebar
-    return render(request,'hospital/doctor_view_patient.html',{'patients':patients,'doctor':doctor})
+    
+    
+    doctor = models.Doctor.objects.get(user=request.user)
+    assigned_patients = models.Patient.objects.filter(assigned_doctor=doctor)
+    
+    
+    return render(request,'hospital/doctor_view_patient.html',{'patients':assigned_patients,'doctor':doctor})
 
 
 @login_required(login_url='doctorlogin')

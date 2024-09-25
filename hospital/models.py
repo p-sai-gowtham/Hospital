@@ -25,6 +25,9 @@ class Doctor(models.Model):
         return self.user.id
     def __str__(self):
         return "{} ({})".format(self.user.first_name,self.id)
+    @property
+    def assigned_patients_count(self):
+        return Patient.objects.filter(assigned_doctor=self).count()
 
 
 
@@ -32,13 +35,13 @@ class Patient(models.Model):
     # hospital = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'hospital'})
     user=models.OneToOneField(User,on_delete=models.CASCADE,blank=True, null=True)
     symptoms = models.CharField(max_length=100,blank=True, null=False)
-    assignedDoctorId = models.PositiveIntegerField(blank=True, null=True)
+    assigned_doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     sex = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')],blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     referred_by = models.CharField(max_length=255,blank=True, null=True)
     test_description = models.TextField(blank=True, null=True)
-    report = models.FileField(upload_to='reports',null=True,blank=True)
-    scans = models.FileField(upload_to='scans',null=True,blank=True)
+    scans = models.TextField(blank=True, null=True)
+    report = models.FileField(upload_to='reports',null=True,blank=True) 
     status = models.CharField(max_length=20, choices=[('to_do', 'To Do'), ('in_review', 'In Review'), ('done', 'Done')], default='to_do',blank=True, null=True)
 
     @property

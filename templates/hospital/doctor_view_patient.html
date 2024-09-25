@@ -44,20 +44,21 @@ facebook : fb.com/sumit.luv
       <thead>
         <tr>
           <th>Name</th>
-          <th>Profile Picture</th>
+          {% comment %} <th>Profile Picture</th> {% endcomment %}
           <th>Symptoms</th>
-          <th>Mobile</th>
-          <th>Address</th>
+          {% comment %} <th>Mobile</th>
+          <th>Address</th> {% endcomment %}
 
         </tr>
       </thead>
       {% for p in patients %}
       <tr>
         <td> {{p.get_name}}</td>
-        <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{p.symptoms}}</td>
+        {% comment %} <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+        
         <td>{{p.mobile}}</td>
-        <td>{{p.address}}</td>
+        <td>{{p.address}}</td> {% endcomment %}
       </tr>
       {% endfor %}
     </table>

@@ -43,6 +43,6 @@ class PatientUserForm(forms.ModelForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model=models.Patient
-        fields=['sex', 'age', 'test_description','symptoms','referred_by', 'assignedDoctorId','scans', 'report']
+        fields=['sex', 'age', 'test_description','symptoms','referred_by', 'assigned_doctor','scans', 'report']
 
 
