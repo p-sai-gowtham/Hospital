@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home_view,name=''),
 
+    path('logut', views.logout_view,name='logout'),
 
     path('aboutus', views.aboutus_view),
     path('contactus', views.contactus_view),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('adminclick', views.adminclick_view),
     path('doctorclick', views.doctorclick_view),
     path('patientclick', views.patientclick_view),
-
+ 
     path('adminsignup', views.admin_signup_view),
     path('doctorsignup', views.doctor_signup_view,name='doctorsignup'),
     path('patientsignup', views.patient_signup_view),
@@ -40,7 +41,6 @@ urlpatterns = [
 
 
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
-    path('logout', LogoutView.as_view(template_name='hospital/index.html'),name='logout'),
 
 
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),
@@ -109,6 +109,4 @@ urlpatterns +=[
 
 ]
 
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
+
