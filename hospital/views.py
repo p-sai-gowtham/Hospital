@@ -331,7 +331,12 @@ def update_patient_view(request, pk):
             patient = patientForm.save(commit=False)  # Save patient but don't commit yet
             patient.status = True
             patient.assignedDoctorId = request.POST.get('assignedDoctorId')
-            patient.save()  # Commit patient save
+            patient.save()  
+
+            reports = request.FILES.getlist('reports')
+            for report in reports:
+                rep = models.Reports.objects.create(report=report, patient=patient)
+                rep.save()
             
             return redirect('admin-view-patient')
     
@@ -340,31 +345,38 @@ def update_patient_view(request, pk):
 
 
 
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_patient_view(request):
-    userForm=forms.PatientUserForm()
-    patientForm=forms.PatientForm()
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
-        patientForm=forms.PatientForm(request.POST,request.FILES)
+    userForm = forms.PatientUserForm()
+    patientForm = forms.PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST)
+        patientForm = forms.PatientForm(request.POST, request.FILES)
+
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
+            user = userForm.save(commit=False)
             user.set_password(user.password)
             user.save()
 
-            patient=patientForm.save(commit=False)
-            patient.user=user
-            patient.status='to_do'
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.status = 'to_do'
             patient.save()
 
-            my_patient_group = Group.objects.get_or_create(name='PATIENT')
-            my_patient_group[0].user_set.add(user)
+            reports = request.FILES.getlist('reports')
+            for report in reports:
+                rep = models.Reports.objects.create(report=report, patient=patient)
+                rep.save()
 
-        return HttpResponseRedirect('admin-dashboard')
-    return render(request,'hospital/admin_add_patient.html',context=mydict)
+            my_patient_group, created = Group.objects.get_or_create(name='PATIENT')
+            my_patient_group.user_set.add(user)
+
+            return HttpResponseRedirect('admin-dashboard')
+
+    return render(request, 'hospital/admin_add_patient.html', mydict)
 
 
 
@@ -875,5 +887,7 @@ def contactus_view(request):
 
 def scans(request, patient_id):
     patient = models.Patient.objects.get(id=patient_id)
-    images  = patient.report
-    return render(request, 'hospital/dicom_index.html',{'image':images})
+    images = models.Reports.objects.filter(patient=patient)
+    for img in images:
+        print(img.report.url)
+    return render(request, 'hospital/dicom_index.html',{'images':images})

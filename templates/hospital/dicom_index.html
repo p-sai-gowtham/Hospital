@@ -16,6 +16,7 @@
     <title>DICOM Viewer</title>
 </head>
 <body>
+    
 </body>
 <div class="wrapper">
     <div class="Toolbar">
@@ -42,6 +43,7 @@
                 <button class="sliceButton" id="Brain">Brain(3)</button>
                 <button class="sliceButton" id="Stroke">Stroke(4)</button>
                 <button class="sliceButton" id="Lung">Lung(5)</button>
+                {{image}}
             </div>
         </div>
         <button class="toolButton" onclick="handleInvert(this)"><img src="{% static 'assets/invert.png' %}" title="Invert"/></button>
@@ -77,14 +79,9 @@
         <div class="stack-wrapper">
             {% for img in images %}
 
-                <button id='thumbnail{{ forloop.counter }}' class="stack" onclick="loadAndViewImage(imageId1)"></button>
+                <button id='thumbnail{{ forloop.counter }}' class="stack" onclick="loadAndViewImage(imageId{{forloop.counter}})"></button>
 
             {% endfor %}
-            <button id='thumbnail1' class="stack" onclick="loadAndViewImage(imageId1)"></button>
-            <button id='thumbnail2' class="stack" onclick="loadAndViewImage(imageId2)"></button>
-            <button id='thumbnail3' class="stack" onclick="loadAndViewImage(imageId1)"></button>
-            <button id='thumbnail4' class="stack" onclick="loadAndViewImage(imageId2)"></button>
-            <button id='thumbnail5' class="stack" onclick="loadAndViewImage(imageId1)"></button>
         </div>
     </div>
 
@@ -395,35 +392,30 @@ function handleReset(){
     let loaded = false;
     let series = [];
 
-    let imageId1 = [
-        'dicomweb:{% static "assets/images/data.dcm" %}',
-        {% for image in images %}
-        'dicomweb:{{image.image.url}}',
-        {% endfor %}
+    {% for image in images %}
+    let imageId{{forloop.counter}} = [
+        'dicomweb:{% static image.report.url %}',
     ];
-
-
+    {% endfor %}
 
 
     const element = document.getElementById('dicomImage');
     cornerstone.enable(element);
 
-    loadAndViewImage(imageId1);
-
+    {% for img in images %}
+    loadAndViewImage(imageId{{forloop.counter}});
+    {% endfor %}
 
     let thumbnail = [
-        document.getElementById('thumbnail1'),
-        {% for image in images %}
-        document.getElementById('thumbnail{{ forloop.counter }}'),
-        {% endfor %}
+    {% for image in images %}
+    document.getElementById('thumbnail{{forloop.counter}}'),
+    {% endfor %}
     ];
 
-    for (let i = 0; i < thumbnail.length; i++) {
-            handleThumbnail(imageId1, thumbnail[i]);
-    }
-    for(let i=0;i<thumbnail.length;i++){
-            handleThumbnail(imageId1, thumbnail[i]);
-    }
+    {% for image in images %}
+    
+    handleThumbnail(imageId{{forloop.counter}}, thumbnail[{{forloop.counter0}}]);
+    {% endfor %}
 
     /*Drop down*/
     function dp_menu1(){
@@ -473,7 +465,7 @@ function handleReset(){
             cornerstone.displayImage(thumnail_img, image, viewport);
             loaded = true;
         }).catch(function (err) {
-            <!-- alert(err); -->
+            alert(err);
         });
     }
 
