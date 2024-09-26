@@ -875,4 +875,5 @@ def contactus_view(request):
 
 def scans(request, patient_id):
     patient = models.Patient.objects.get(id=patient_id)
-    return render(request, 'hospital/dicom_index.html')
+    images  = patient.report
+    return render(request, 'hospital/dicom_index.html',{'image':images})

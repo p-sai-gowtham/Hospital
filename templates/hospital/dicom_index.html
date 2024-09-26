@@ -75,6 +75,11 @@
     </div>
     <div class="left">
         <div class="stack-wrapper">
+            {% for img in images %}
+
+                <button id='thumbnail{{ forloop.counter }}' class="stack" onclick="loadAndViewImage(imageId1)"></button>
+
+            {% endfor %}
             <button id='thumbnail1' class="stack" onclick="loadAndViewImage(imageId1)"></button>
             <button id='thumbnail2' class="stack" onclick="loadAndViewImage(imageId2)"></button>
             <button id='thumbnail3' class="stack" onclick="loadAndViewImage(imageId1)"></button>
@@ -392,10 +397,9 @@ function handleReset(){
 
     let imageId1 = [
         'dicomweb:{% static "assets/images/data.dcm" %}',
-        'dicomweb:{% static "assets/images/data.dcm" %}',
-        'dicomweb:{% static "assets/images/data.dcm" %}',
-        'dicomweb:{% static "assets/images/data.dcm" %}',
-    
+        {% for image in images %}
+        'dicomweb:{{image.image.url}}',
+        {% endfor %}
     ];
 
 
@@ -409,37 +413,16 @@ function handleReset(){
 
     let thumbnail = [
         document.getElementById('thumbnail1'),
-        document.getElementById('thumbnail2'),
-        document.getElementById('thumbnail3'),
-        document.getElementById('thumbnail4'),
-        document.getElementById('thumbnail5'),
+        {% for image in images %}
+        document.getElementById('thumbnail{{ forloop.counter }}'),
+        {% endfor %}
     ];
 
     for (let i = 0; i < thumbnail.length; i++) {
-        if (i === 0) {
-            handleThumbnail(imageId1, thumbnail[0]);
-        } else if (i === 1) {
-            handleThumbnail(imageId2, thumbnail[1]);
-        } else if (i === 2) {
-            handleThumbnail(imageId1, thumbnail[2]);
-        } else if (i === 3) {
-            handleThumbnail(imageId2, thumbnail[3]);
-        } else if (i === 4) {
-            handleThumbnail(imageId1, thumbnail[4]);
-        }
+            handleThumbnail(imageId1, thumbnail[i]);
     }
     for(let i=0;i<thumbnail.length;i++){
-        if (i === 0) {
-            handleThumbnail(imageId1, thumbnail[0]);
-        } else if (i === 1) {
-            handleThumbnail(imageId2, thumbnail[1]);
-        } else if (i === 2) {
-            handleThumbnail(imageId1, thumbnail[2]);
-        } else if (i === 3) {
-            handleThumbnail(imageId2, thumbnail[3]);
-        } else if (i === 4) {
-            handleThumbnail(imageId1, thumbnail[4]);
-        }
+            handleThumbnail(imageId1, thumbnail[i]);
     }
 
     /*Drop down*/
