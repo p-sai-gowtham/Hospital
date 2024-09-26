@@ -45,22 +45,21 @@
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
-<br><br>
-<!------ update page for doctor by admin(sumit)  ---------->
+<br><br><br>
+
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="container register-form">
     <div class="form">
       <div class="note">
-        <p>Update Doctor Details</p>
+        <p>Admit Patient To Hospital</p>
       </div>
       <div class="form-content">
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group">
-              {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-            </div>
+
             <div class="form-group">
               {% render_field userForm.username class="form-control" placeholder="Username" %}
             </div>
@@ -68,47 +67,81 @@
               {% render_field patientForm.sex class="form-control" placeholder="Sex" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.test_description class="form-control" placeholder="Test" %}
+              {% render_field patientForm.test_description class="form-control" placeholder="Test Description" %}
+            </div>
+            
+            <div class="form-group">
+              <label>Emergency</label>
+              {% render_field patientForm.emergency class="form-control" %}
             </div>
             <div class="form-group">
-              {% render_field patientForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
+              {% render_field patientForm.report_status class="form-control" placeholder="Report Status" %}
             </div>
           </div>
           <div class="col-md-6">
+
             <div class="form-group">
-              {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
+              {% render_field patientForm.age class="form-control" placeholder="Age" %}
             </div>
             <div class="form-group">
-              {% render_field userForm.password class="form-control" placeholder="Password" %}
-            </div>
-            <div class="form-group">
-              {% render_field patientForm.age  class="form-control" placeholder="Age" %}
-            </div>
-            <div class="form-group">
-              {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
+              <lable>Assigned Doctor</lable>
+              {% render_field patientForm.assigned_doctor class="form-control" placeholder="Doctor" %}
             </div>
             <div class="form-group">
               {% render_field patientForm.symptoms class="form-control" placeholder="Symptoms" %}
             </div>
             <div class="form-group">
+<<<<<<< Updated upstream
               <lable>Reports</lable>
               <input type="file" name="reports" class="form-control" placeholder="Reports" multiple>
-            </div>
-            <div class="form-group">
-              <lable>Scans</lable>
+=======
+              <label>Scans</label>
               {% render_field patientForm.scans class="form-control" placeholder="Scans" %}
             </div>
+            <div class="form-group">
+              <label>Dicom Images</label>
+              {% render_field patientForm.report class="form-control" placeholder="Reports" %}
+>>>>>>> Stashed changes
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.patient_id class="form-control" placeholder="Patient ID" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.study_date class="form-control" placeholder="Study Date" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.study_time class="form-control" placeholder="Study Time" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.accession class="form-control" placeholder="Accession" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.department class="form-control" placeholder="Department" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.modality class="form-control" placeholder="Modality" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.images class="form-control" placeholder="Images" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.center class="form-control" placeholder="Center" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.doctor_refer_by class="form-control" placeholder="Doctor Refer By" %}
+            </div>
+            <div class="form-group">
+              <label>Is Printed</label>
+              {% render_field patientForm.is_printed class="form-control" %}
+            </div>
+  
           </div>
         </div>
-        <button type="submit" class="btnSubmit">Update</button>
+        <button type="submit" class="btnSubmit">Admit</button>
       </div>
     </div>
   </div>
+
 </form>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
 
 {% endblock content %}

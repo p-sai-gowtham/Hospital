@@ -8,7 +8,7 @@ from . import models
 class AdminSigupForm(forms.ModelForm):
     class Meta:
         model=User
-        fields=['first_name','last_name','username','password']
+        fields=['username','password']
         widgets = {
         'password': forms.PasswordInput()
         }
@@ -34,7 +34,7 @@ class DoctorForm(forms.ModelForm):
 class PatientUserForm(forms.ModelForm):
     class Meta:
         model=User
-        fields=['first_name','last_name','username','password']
+        fields=['username']
         widgets = {
         'password': forms.PasswordInput()
         }
@@ -42,4 +42,12 @@ class PatientUserForm(forms.ModelForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model=models.Patient
-        fields=['sex', 'age', 'test_description','symptoms','referred_by', 'assigned_doctor','scans']
+        fields = [
+            'sex', 'age', 'test_description', 'symptoms', 
+            'hospital_referred_by', 'assigned_doctor', 
+            'scans', 'report', 'emergency', 'report_status',
+            'patient_id', 'study_date', 'study_time', 
+            'accession', 'department', 'modality', 
+            'images', 'center', 
+            'is_printed'
+        ]

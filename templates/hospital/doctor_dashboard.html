@@ -3,40 +3,137 @@
 {% block content %}
 {%include 'hospital/doctor_dashboard_cards.html'%}
 <br><br><br><br>
+<style>
+  
+  .search-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns the content to the right */
+    align-items: center; /* Centers the items vertically */
+    margin-bottom: 12px;
+  }
+  
+  #myInput {
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 50%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+  }
+  
+  .search-icon {
+    width: 24px; 
+    height: 24px; 
+    margin-left: -30px; /* Adjust to position the icon correctly */
+    cursor: pointer; /* Change cursor to pointer for better UX */
+  }
+  
+</style>
+
+<div class="search-container">
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..." title="Type in a name">
+  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M10 2a8 8 0 1 0 5.29 14.14l5.3 5.3 1.42-1.42-5.3-5.3A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/>
+  </svg>
+</div>
+
+
 <div class="container">
   <div class="row">
-    <div class="panel panel-primary" style="margin-left:15%;">
+    <div class="panel panel-primary">
       <div class="panel-heading" style="text-align:center;">
         <h6 class="panel-title">Recent Appointments For You</h6>
       </div>
-      <table class="table table-hover" id="dev-table">
-        <thead>
-          <tr>
-            <th>Patient Name</th>
-             {% comment %} <th>Picture</th>
-            <th>Description</th> {% endcomment %}
-            {% comment %} <th>Mobile</th> {% endcomment %}
-            {% comment %} <th>Address</th>
-            <th>Date</th> {% endcomment %}
-            <th>Symptoms</th>
-          </tr>
-        </thead>
-        {% for a in patients %}
+      
+  {% if patients %}
+    <table class="table table-hover" id="dev-table">
+      <thead>
         <tr>
-          <td>{{a.get_name}}</td>
-           {% comment %} <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-          <td>{{a.description}}</td> {% endcomment %}
-          {% comment %} <td>{{p.mobile}}</td> {% endcomment %}
-          
-          {% comment %} <td>{{p.address}}</td> {% endcomment %}
-          {% comment %} <td>{{a.appointmentDate}}</td> {% endcomment %} 
-          <td>{{a.symptoms}}</td> 
+          <th>Name</th>
+          <th>Sex</th>
+          <th>Age</th>
+          <th>Symptoms</th>
+          <th>Refered By</th>
+          <th>Emergency</th>
+          <th>Test Description</th>
+          <th>Report Status</th>
+          <th>Study Date</th>
+          <th>Study Time</th>
+          <th>Accession</th>
+          <th>Department</th>
+          <th>Modality</th>
+          <th>Images</th>
+          <th>Center</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in patients %}
+        <tr>
+          <td>{{ p.get_name }}</td>
+          <td>{{ p.sex }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.symptoms }}</td>
+          <td>{{ p.hospital_referred_by }}</td>
+          <td>{{ p.emergency|yesno:"Yes,No" }}</td>
+          <td>{{ p.test_description }}</td>
+          <td>{{ p.report_status }}</td>
+          <td>{{ p.study_date }}</td>
+          <td>{{ p.study_time }}</td>
+          <td>{{ p.accession }}</td>
+          <td>{{ p.department }}</td>
+          <td>{{ p.modality }}</td>
+          <td>{{ p.images }}</td>
+          <td>{{ p.center }}</td>
+         
         </tr>
         {% endfor %}
-      </table>
+      </tbody>
+    </table>
+  {% else %}
+  <h4 class="no-patients">No Patient Found !!!</h4>
+  {% endif %}
     </div>
   </div>
 </div>
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("dev-table");
+    tr = table.getElementsByTagName("tr");
+    
+    for (i = 0; i < tr.length; i++) {
+      
+      if (i === 0) {
+        tr[i].style.display = ""; 
+        continue;
+      }
+      
+      tr[i].style.display = "none";
+      td = tr[i].getElementsByTagName("td");
+      
+    
+      for (j = 0; j < td.length; j++) {
+        if (td[j]) {
+          txtValue = td[j].textContent || td[j].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = ""; 
+            break; 
+          }
+        }
+      }
+    }
+  }
+</script>
+
+
+
+
+
+
 <!--
 developed By : sumit kumar
 facebook : fb.com/sumit.luv

@@ -37,19 +37,30 @@ class Patient(models.Model):
     assigned_doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     sex = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')],blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
-    referred_by = models.CharField(max_length=255,blank=True, null=True)
+    hospital_referred_by = models.ForeignKey(User,on_delete=models.SET_NULL,blank=True, null=True,related_name='hospital_referred_by')
     test_description = models.TextField(blank=True, null=True)
     scans = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=[('to_do', 'To Do'), ('in_review', 'In Review'), ('done', 'Done')], default='to_do',blank=True, null=True)
+    emergency = models.BooleanField(default=False)
+    report_status = models.CharField(max_length=20, blank=True, null=True)
+    patient_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    study_date = models.DateField(blank=True, null=True)
+    study_time = models.TimeField(blank=True, null=True)
+    accession = models.CharField(max_length=50, blank=True, null=True)
+    department = models.CharField(max_length=50, blank=True, null=True)
+    modality = models.CharField(max_length=50, blank=True, null=True)
+    images = models.IntegerField(blank=True,null=True) # Consider changing to FileField if uploading images
+    center = models.CharField(max_length=100, blank=True, null=True)
+    is_printed = models.BooleanField(default=False)
 
-    @property
+    @property 
     def get_name(self):
-        return self.user.first_name+" "+self.user.last_name
+        return self.user.username
     @property
     def get_id(self):
         return self.user.id
     def __str__(self):
-        return self.user.first_name
+        return self.user.username
 
 class Reports(models.Model):
     report = models.FileField(upload_to='reports',null=True,blank=True)

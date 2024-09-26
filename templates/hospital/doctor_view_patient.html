@@ -1,13 +1,13 @@
 {% extends 'hospital/doctor_base.html' %}
-{% block content %}
-{%load static%}
+{% block content%}
+{% load static %}
 
 <head>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
-  <style media="screen">
+  <style>
     a:link {
       text-decoration: none;
     }
@@ -19,21 +19,26 @@
     .row {
       margin: 100px;
     }
+
+    .search-container {
+      margin-left: 70%;
+    }
+
+    .no-patients {
+      text-align: center;
+      color: red;
+      margin-top: 50px;
+    }
   </style>
 </head>
-<!--
-written By : sumit kumar
-facebook : fb.com/sumit.luv
--->
-
 
 <div class="container">
-
-    <form  action="/search" method="get" style="margin-left:70%;" class="form-inline my-2 my-lg-0">
+  {% comment %} <div class="search-container">
+    <form action="/search" method="get" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" name="query" id="query" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
- 
+  </div> {% endcomment %}
 
   {% if patients %}
   <div class="panel panel-primary">
@@ -44,36 +49,50 @@ facebook : fb.com/sumit.luv
       <thead>
         <tr>
           <th>Name</th>
-          {% comment %} <th>Profile Picture</th> {% endcomment %}
+          <th>Sex</th>
+          <th>Age</th>
           <th>Symptoms</th>
-          {% comment %} <th>Mobile</th>
-          <th>Address</th> {% endcomment %}
-
+          <th>Refered BY</th>
+          <th>Emergency</th>
+          <th>Test Description</th>
+          <th>Report Status</th>
+          <th>Study Date</th>
+          <th>Study Time</th>
+          <th>Accession</th>
+          <th>Department</th>
+          <th>Modality</th>
+          <th>Images</th>
+          <th>Center</th>
+          
         </tr>
       </thead>
-      {% for p in patients %}
-      <tr>
-        <td> {{p.get_name}}</td>
-        <td>{{p.symptoms}}</td>
-        {% comment %} <td> <img src="{% static p.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-        
-        <td>{{p.mobile}}</td>
-        <td>{{p.address}}</td> {% endcomment %}
-      </tr>
-      {% endfor %}
+      <tbody>
+        {% for p in patients %}
+        <tr>
+          <td>{{ p.get_name }}</td>
+          <td>{{ p.sex }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.symptoms }}</td>
+          <td>{{ p.hospital_referred_by }}</td>
+          <td>{{ p.emergency|yesno:"Yes,No" }}</td>
+          <td>{{ p.test_description }}</td>
+          <td>{{ p.report_status }}</td>
+          <td>{{ p.study_date }}</td>
+          <td>{{ p.study_time }}</td>
+          <td>{{ p.accession }}</td>
+          <td>{{ p.department }}</td>
+          <td>{{ p.modality }}</td>
+          <td>{{ p.images }}</td>
+          <td>{{ p.center }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
-  {%else%}
-  <br><br><br>
-  <h4 style="text-align: center;color: red;">No Patient Found !!!</h4>
+  {% else %}
+  <h4 class="no-patients">No Patient Found !!!</h4>
   {% endif %}
-
-
 </div>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
 
 {% endblock content %}

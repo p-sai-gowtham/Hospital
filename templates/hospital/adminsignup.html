@@ -67,24 +67,19 @@
     <div class="container register-form">
       <div class="form">
         <div class="note">
-          <p>Add New Admin To Hospital</p>
+          <p>Add New Hospital</p>
         </div>
 
         <div class="form-content">
           <div class="row">
             <div class="col-md-6">
+              
               <div class="form-group">
-                {% render_field form.first_name class="form-control" placeholder="First Name" %}
-              </div>
-              <div class="form-group">
-                {% render_field form.username class="form-control" placeholder="Username" %}
+                {% render_field form.username class="form-control" placeholder="Hospital Name" %}
               </div>
 
             </div>
             <div class="col-md-6">
-              <div class="form-group">
-                {% render_field form.last_name class="form-control" placeholder="Last Name" %}
-              </div>
               <div class="form-group">
                 {% render_field form.password class="form-control" placeholder="Password" %}
               </div>

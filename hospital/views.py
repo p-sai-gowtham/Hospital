@@ -361,9 +361,10 @@ def admin_add_patient_view(request):
             user.set_password(user.password)
             user.save()
 
-            patient = patientForm.save(commit=False)
-            patient.user = user
-            patient.status = 'to_do'
+            patient=patientForm.save(commit=False)
+            patient.user=user
+            patient.status='to_do'
+            patient.hospital_referred_by=request.user
             patient.save()
 
             reports = request.FILES.getlist('reports')
