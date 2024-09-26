@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%}">
     <script src="https://unpkg.com/hammerjs@2.0.8/hammer.js"></script>
     <script src="https://unpkg.com/dicom-parser@1.8.3/dist/dicomParser.min.js"></script>
     <script src="https://unpkg.com/cornerstone-core"></script>
@@ -19,22 +20,22 @@
 <div class="wrapper">
     <div class="Toolbar">
         <div class="dropdown">
-            <button  class="toolButton" onclick="dp_menu1()" ><img src="assets/annotation.png" title="Toggle Annotations"></button>
+            <button  class="toolButton" onclick="dp_menu1()" ><img src="{% static 'assets/annotation.png' %}" title="Toggle Annotations"></button>
             <div style="display: none;" id="drop-content1">
-                <button class="toolButton" onclick="handleBidirectional(this)"><img src="./assets/bidirectional.png" title="Bidirectional"></button>
-                <button class="toolButton" onclick="handleArrowAnnotate(this)"><img src="./assets/arrowAnnotate.png" title="Arrow Annotate"></button>
-                <button class="toolButton" onclick="handleEllipticalRoi(this)"><img src="./assets/ellipticalROI.png" title="Elliptical ROI"></button>
-                <button class="toolButton" onclick="handleRectangleROI(this)"><img src="./assets/rectangleROI.png" title="Rectangle ROI"></button>
-                <button class="toolButton" onclick="handleFreehand(this)"><img src="./assets/freeHand.png" title="FreeHand ROI"></button>
-                <button class="toolButton" onclick="handleLength(this)"><img src="./assets/length.png" title="Length"></button>
-                <button class="toolButton" onclick="handleAngle(this)"><img src="./assets/angle.png" title="Angle"></button>
-                <button class="toolButton" onclick="handleProbe(this)"><img src="./assets/probe.png" title="Probe"></button>
+                <button class="toolButton" onclick="handleBidirectional(this)"><img src="{% static 'assets/bidirectional.png' %}" title="Bidirectional"></button>
+                <button class="toolButton" onclick="handleArrowAnnotate(this)"><img src="{% static 'assets/arrowAnnotate.png' %}" title="Arrow Annotate"></button>
+                <button class="toolButton" onclick="handleEllipticalRoi(this)"><img src="{% static 'assets/ellipticalROI.png' %}" title="Elliptical ROI"></button>
+                <button class="toolButton" onclick="handleRectangleROI(this)"><img src="{% static 'assets/rectangleROI.png' %}" title="Rectangle ROI"></button>
+                <button class="toolButton" onclick="handleFreehand(this)"><img src="{% static 'assets/freeHand.png' %}" title="FreeHand ROI"></button>
+                <button class="toolButton" onclick="handleLength(this)"><img src="{% static 'assets/length.png' %}" title="Length"></button>
+                <button class="toolButton" onclick="handleAngle(this)"><img src="{% static 'assets/angle.png' %}" title="Angle"></button>
+                <button class="toolButton" onclick="handleProbe(this)"><img src="{% static 'assets/probe.png' %}" title="Probe"></button>
             </div>
         </div>
-        <button id='stackScrollButton' class="toolButton" onclick="handleStackScrollMouseWheel(this)"><img src="./assets/stack.png" title="Stack"/></button>
-        <button class="toolButton" id="wwwc" onclick="handleWWWC(this)" ><img src="assets/wwwc.png"title="WW/WC"/></button>
+        <button id='stackScrollButton' class="toolButton" onclick="handleStackScrollMouseWheel(this)"><img src="{% static 'assets/stack.png' %}" title="Stack"/></button>
+        <button class="toolButton" id="wwwc" onclick="handleWWWC(this)" ><img src="{% static 'assets/wwwc.png' %}"title="WW/WC"/></button>
         <div class="dropdown">
-            <button  class="toolButton" onclick="dp_menu2()" ><img src="assets/wideButton.png" title="WW/WC"></button>
+            <button  class="toolButton" onclick="dp_menu2()" ><img src="{% static 'assets/wideButton.png' %}" title="WW/WC"></button>
             <div style="display: none;" id="drop-content2">
                 <button class="sliceButton" id="SoftTissue" >Soft Tissue(1)</button>
                 <button class="sliceButton" id="Bone">Bone(2)</button>
@@ -43,17 +44,17 @@
                 <button class="sliceButton" id="Lung">Lung(5)</button>
             </div>
         </div>
-        <button class="toolButton" onclick="handleInvert(this)"><img src="./assets/invert.png" title="Invert"/></button>
-        <button class="toolButton" onclick="handleMagnify(this)"><img src="./assets/magnify.png" title="Magnify"></button>
-        <button class="toolButton" onclick="handleZoom(this)" id="zoom"><img src="./assets/zoom.png" title="Zoom"/></button>
-        <button class="toolButton" onclick="handlePan(this)" ><img src="./assets/pan.png" title="pan"/></button>
-        <button class="toolButton" onclick="handleEraser(this)"><img src="./assets/eraser.png" title="Eraser"></button>
-        <button class="toolButton" onclick="handleReset(this)"><img src="./assets/refresh.png" title="Reset"></button>
-        <button class="toolButton" onclick="handleInvert(this)"><img src="./assets/invert.png" title="Invert"/></button>
-        <button class="toolButton" id="toggleOverlay"><img src="./assets/toggle_overlay.PNG" title="Toggle Overlay"></button>
-        <button class="toolButton" id="playClip"><img src="./assets/play.png" title="Play Clip"></button>
+        <button class="toolButton" onclick="handleInvert(this)"><img src="{% static 'assets/invert.png' %}" title="Invert"/></button>
+        <button class="toolButton" onclick="handleMagnify(this)"><img src="{% static 'assets/magnify.png' %}" title="Magnify"></button>
+        <button class="toolButton" onclick="handleZoom(this)" id="zoom"><img src="{% static 'assets/zoom.png' %}" title="Zoom"/></button>
+        <button class="toolButton" onclick="handlePan(this)" ><img src="{% static 'assets/pan.png' %}" title="pan"/></button>
+        <button class="toolButton" onclick="handleEraser(this)"><img src="{% static 'assets/eraser.png' %}" title="Eraser"></button>
+        <button class="toolButton" onclick="handleReset(this)"><img src="{% static 'assets/refresh.png' %}" title="Reset"></button>
+        <button class="toolButton" onclick="handleInvert(this)"><img src="{% static 'assets/invert.png' %}" title="Invert"/></button>
+        <button class="toolButton" id="toggleOverlay"><img src="{% static 'assets/toggle_overlay.PNG' %}" title="Toggle Overlay"></button>
+        <button class="toolButton" id="playClip"><img src="{% static 'assets/play.png' %}" title="Play Clip"></button>
         <div class="dropdown">
-            <button  class="toolButton" onclick="dp_menu4()" ><img src="assets/changeSeriesLayout.png" title="changeLayoutGrid"></button>
+            <button  class="toolButton" onclick="dp_menu4()" ><img src="{% static 'assets/changeSeriesLayout.png' %}" title="changeLayoutGrid"></button>
             <div style="display: none;" id="drop-content4">
                 <button class="sliceButton" id="11" >1x1</button>
                 <button class="sliceButton" id="12">1x2</button>
@@ -61,9 +62,9 @@
                 <button class="sliceButton" id="22">2x2</button>
             </div>
         </div>
-        <button class="toolButton" onclick="handleReferenceLine(this)"><img src="./assets/referenceLine.png" title="Reference line"></button>
+        <button class="toolButton" onclick="handleReferenceLine(this)"><img src="{% static 'assets/referenceLine.png' %}" title="Reference line"></button>
         <div class="dropdown">
-            <button  class="toolButton" onclick="dp_menu3()" ><img src="assets/slice.PNG" title="Sort images by..."></button>
+            <button  class="toolButton" onclick="dp_menu3()" ><img src="{% static 'assets/slice.PNG' %}" title="Sort images by..."></button>
             <div style="display: none;" id="drop-content3">
                 <button class="sliceButton" onclick="handleSortPlus(this)">Slice location +</button>
                 <button class="sliceButton" onclick="handleSortMinus(this)">Slice location -</button>
@@ -95,7 +96,285 @@
         </div>
     </div>
 </div>
-<script src="./tool.js"></script>
+<script>
+    function handleWWWC(element){
+    const WwwcTool = cornerstoneTools.WwwcTool;
+
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(WwwcTool);
+        cornerstoneTools.setToolActive('Wwwc', {mouseButtonMask: 1});
+    } else {
+        cornerstoneTools.removeTool('WwwcTool');
+    }
+}
+function handleZoom(element){
+    const ZoomTool = cornerstoneTools.ZoomTool;
+
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(ZoomTool,{
+            configuration: {
+                invert: false,
+                preventZoomOutsideImage: false,
+                minScale: .1,
+                maxScale: 20.0,
+            }
+        });
+        cornerstoneTools.setToolActive('Zoom', {mouseButtonMask: 1});
+    } else {
+        cornerstoneTools.removeTool('ZoomTool');
+    }
+}
+function handlePan(element){
+    const PanTool = cornerstoneTools.PanTool;
+
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(PanTool);
+        cornerstoneTools.setToolActive('Pan', {mouseButtonMask: 1});
+    } else {
+        cornerstoneTools.removeTool('PanTool');
+    }
+}
+function handleMagnify(element){
+    const MagnifyTool = cornerstoneTools.MagnifyTool;
+
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(MagnifyTool);
+        cornerstoneTools.setToolActive('Magnify', {mouseButtonMask: 1});
+    } else {
+        cornerstoneTools.removeTool('MagnifyTool');
+    }
+}
+function handlePlay(element){
+
+}
+function handleBidirectional(element){
+    const BidirectionalTool = cornerstoneTools.BidirectionalTool;
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(BidirectionalTool);
+        cornerstoneTools.setToolActive('Bidirectional', {mouseButtonMask: 1});
+    } else {
+        cornerstoneTools.removeTool('BidirectionalTool');
+    }
+}
+function handleChangeLayout(element){
+
+}
+function handleSortPlus(){
+    imageId1 = imageId1.reverse();
+    loadAndViewImage(imageId1);
+}
+function handleSortMinus(){
+    imageId1 = imageId1.reverse();
+    loadAndViewImage(imageId1);
+}
+function handleEllipticalRoi(element) {
+    const EllipticalRoiTool = cornerstoneTools.EllipticalRoiTool;
+
+    addActiveClass(element);
+
+    if (loaded) {
+        cornerstoneTools.addTool(EllipticalRoiTool);
+        cornerstoneTools.setToolActive('EllipticalRoi', {mouseButtonMask: 1});
+
+    } else {
+        cornerstoneTools.removeTool('EllipticalRoiTool');
+    }
+}
+
+function handleRectangleROI(element) {
+    const RectangleRoiTool = cornerstoneTools.RectangleRoiTool;
+
+    addActiveClass(element);
+    if (loaded) {
+        cornerstoneTools.addTool(RectangleRoiTool);
+        cornerstoneTools.setToolActive('RectangleRoi', {mouseButtonMask: 1});
+
+    } else {
+        cornerstoneTools.removeTool('RectangleRoiTool');
+    }
+}
+function handleFreehand(element) {
+    const FreehandRoiTool = cornerstoneTools.FreehandRoiTool;
+
+    addActiveClass(element);
+    if (loaded) {
+
+        cornerstoneTools.addTool(FreehandRoiTool);
+        cornerstoneTools.setToolActive('FreehandRoi', {mouseButtonMask: 1});
+
+    } else {
+        cornerstoneTools.removeTool('LengthTool');
+    }
+}
+function handleLength(element) {
+    const LengthTool = cornerstoneTools.LengthTool;
+
+    addActiveClass(element);
+    if (loaded) {
+
+        cornerstoneTools.addTool(LengthTool)
+        cornerstoneTools.setToolActive('Length', {mouseButtonMask: 1})
+
+    } else {
+        cornerstoneTools.removeTool('LengthTool');
+    }
+}
+
+function handleAngle(element) {
+    const AngleTool = cornerstoneTools.AngleTool;
+
+    addActiveClass(element);
+
+    if (loaded) {
+
+        cornerstoneTools.addTool(AngleTool)
+        cornerstoneTools.setToolActive('Angle', {
+            mouseButtonMask: 1
+        });
+
+    } else {
+        cornerstoneTools.removeTool('Angle');
+    }
+}
+
+function handleEraser(element) {
+    const EraserTool = cornerstoneTools.EraserTool;
+
+    addActiveClass(element);
+
+    if (loaded) {
+
+        cornerstoneTools.addTool(EraserTool)
+        cornerstoneTools.setToolActive('Eraser', {
+            mouseButtonMask: 1
+        });
+
+    } else {
+        cornerstoneTools.removeTool('Eraser');
+    }
+}
+
+function handleProbe(element) {
+    const ProbeTool = cornerstoneTools.ProbeTool;
+
+    addActiveClass(element);
+
+    if (loaded) {
+
+        cornerstoneTools.addTool(ProbeTool)
+        cornerstoneTools.setToolActive('Probe', {
+            mouseButtonMask: 1
+        });
+
+    } else {
+        cornerstoneTools.removeTool('Probe');
+    }
+}
+function handleReferenceLine(){
+    const elements = cornerstone.getEnabledElements()
+    const synchronizer = new cornerstoneTools.Synchronizer(
+        'cornerstonenewimage',
+        cornerstoneTools.updateImageSynchronizer
+    )
+    elements.forEach(value => {
+        const { element } = value
+        synchronizer.add(element)
+    })
+    synchronizer.enabled = true
+    cornerstoneTools.addTool(cornerstoneTools.ReferenceLinesTool)
+    cornerstoneTools.setToolEnabled('ReferenceLines', {
+        synchronizationContext: synchronizer,
+    })
+}
+function handleStackScrollTool(htmlElement){
+    const element = document.getElementById('dicomImage');
+    const StackScrollTool = cornerstoneTools.StackScrollTool;
+
+    if (series.length < 1) {
+        alert('upload several DICOM.');
+        return false;
+    }
+
+    addActiveClass(htmlElement);
+
+    const imageIds = series.map(seriesImage => seriesImage);
+    const stack = {
+        currentImageIdIndex: 0,
+        imageIds
+    };
+
+    cornerstoneTools.addStackStateManager(element, ['stack']);
+    cornerstoneTools.addToolState(element, 'stack', stack);
+
+    cornerstoneTools.addTool(StackScrollTool);
+    cornerstoneTools.setToolActive('StackScrollTool', {mouseButtonMask:1});
+}
+function handleStackScrollMouseWheel(htmlElement) {
+    const element = document.getElementById('dicomImage');
+    const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
+
+    if (series.length < 1) {
+        alert('upload several DICOM.');
+        return false;
+    }
+
+    addActiveClass(htmlElement);
+
+    const imageIds = series.map(seriesImage => seriesImage);
+    const stack = {
+        currentImageIdIndex: 0,
+        imageIds
+    };
+
+    cornerstoneTools.addStackStateManager(element, ['stack']);
+    cornerstoneTools.addToolState(element, 'stack', stack);
+
+    cornerstoneTools.addTool(StackScrollMouseWheelTool);
+    cornerstoneTools.setToolActive('StackScrollMouseWheel', {});
+}
+
+function addActiveClass(element) {
+    let elements = document.querySelectorAll('.button');
+
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].classList.remove('active');
+    }
+
+    element.classList.add('active');
+}
+function handleInvert() {
+    const element = document.getElementById('dicomImage');
+    const viewport = cornerstone.getViewport(element);
+    viewport.invert = !viewport.invert;
+    cornerstone.setViewport(element, viewport);
+}
+
+function handleArrowAnnotate(element) {
+    const ArrowAnnotateTool = cornerstoneTools.ArrowAnnotateTool;
+
+    addActiveClass(element);
+
+    if (loaded) {
+
+        cornerstoneTools.addTool(ArrowAnnotateTool);
+        cornerstoneTools.setToolActive('ArrowAnnotate', {mouseButtonMask: 1});
+
+    } else {
+        cornerstoneTools.removeTool('ArrowAnnotate');
+    }
+}
+
+function handleReset(){
+    const element =  document.getElementById('dicomImage');
+    const viewport = cornerstone.getViewport(element);
+    cornerstone.reset(element);
+}
+</script>
 <script>
     cornerstoneTools.external.Hammer = Hammer;
     cornerstoneTools.external.cornerstone = cornerstone;
@@ -112,10 +391,10 @@
     let series = [];
 
     let imageId1 = [
-        'dicomweb:../assets/images/data.dcm',
-        'dicomweb:../assets/images/data.dcm',
-        'dicomweb:../assets/images/data.dcm',
-        'dicomweb:../assets/images/data.dcm',
+        'dicomweb:{% static "assets/images/data.dcm" %}',
+        'dicomweb:{% static "assets/images/data.dcm" %}',
+        'dicomweb:{% static "assets/images/data.dcm" %}',
+        'dicomweb:{% static "assets/images/data.dcm" %}',
     
     ];
 

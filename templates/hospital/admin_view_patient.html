@@ -36,6 +36,7 @@ facebook : fb.com/sumit.luv
           <th>Name</th>
           <th>Report</th>
           <th>Symptoms</th>
+          <th>Scans</th>
           <th>Update</th>
           <th>Delete</th>
         </tr>
@@ -49,8 +50,7 @@ facebook : fb.com/sumit.luv
         No Report Available
       {% endif %}</td>
         <td>{{p.symptoms}}</td>
-        <td>{{p.mobile}}</td>
-        <td>{{p.address}}</td>
+        <td><a href="/scans/{{p.id}}">View here</a></td>
         <td><a class="btn btn-primary btn-xs" href="{% url 'update-patient' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>
         <td><a class="btn btn-danger btn-xs" href="{% url 'delete-patient-from-hospital' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
