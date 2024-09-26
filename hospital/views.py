@@ -325,12 +325,10 @@ def update_patient_view(request, pk):
         
         if userForm.is_valid() and patientForm.is_valid():
             user = userForm.save(commit=False)  # Save user but don't commit yet
-            user.set_password(userForm.cleaned_data['password'])  # Set new password
+            
             user.save()  # Commit user save
             
             patient = patientForm.save(commit=False)  # Save patient but don't commit yet
-            patient.status = True
-            patient.assignedDoctorId = request.POST.get('assignedDoctorId')
             patient.save()  
 
             reports = request.FILES.getlist('reports')
@@ -358,7 +356,6 @@ def admin_add_patient_view(request):
 
         if userForm.is_valid() and patientForm.is_valid():
             user = userForm.save(commit=False)
-            user.set_password(user.password)
             user.save()
 
             patient=patientForm.save(commit=False)

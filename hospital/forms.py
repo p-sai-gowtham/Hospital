@@ -45,7 +45,7 @@ class PatientForm(forms.ModelForm):
         fields = [
             'sex', 'age', 'test_description', 'symptoms', 
             'hospital_referred_by', 'assigned_doctor', 
-            'scans', 'report', 'emergency', 'report_status',
+            'scans', 'emergency', 'report_status',
             'patient_id', 'study_date', 'study_time', 
             'accession', 'department', 'modality', 
             'images', 'center', 

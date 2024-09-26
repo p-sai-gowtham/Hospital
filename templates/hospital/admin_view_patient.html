@@ -34,7 +34,7 @@ facebook : fb.com/sumit.luv
       <thead>
         <tr>
           <th>Name</th>
-          <th>Report</th>
+         
           <th>Symptoms</th>
           <th>Scans</th>
           <th>Update</th>
@@ -44,11 +44,7 @@ facebook : fb.com/sumit.luv
       {% for p in patients %}
       <tr>
         <td> {{p.get_name}}</td>
-        <td> {% if p.report %}
-        <a href="{% static p.report.url %}" target="_blank">Report</a>
-      {% else %}
-        No Report Available
-      {% endif %}</td>
+        
         <td>{{p.symptoms}}</td>
         <td><a href="/scans/{{p.id}}">View here</a></td>
         <td><a class="btn btn-primary btn-xs" href="{% url 'update-patient' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>

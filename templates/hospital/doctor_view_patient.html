@@ -59,6 +59,7 @@
           <th>Study Date</th>
           <th>Study Time</th>
           <th>Accession</th>
+          <th>Scans</th>
           <th>Department</th>
           <th>Modality</th>
           <th>Images</th>
@@ -80,6 +81,7 @@
           <td>{{ p.study_date }}</td>
           <td>{{ p.study_time }}</td>
           <td>{{ p.accession }}</td>
+          <td><a href="/scans/{{p.id}}">View here</a></td>
           <td>{{ p.department }}</td>
           <td>{{ p.modality }}</td>
           <td>{{ p.images }}</td>
