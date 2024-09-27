@@ -80,6 +80,7 @@ urlpatterns = [
 
 #---------FOR DOCTOR RELATED URLS-------------------------------------
 urlpatterns +=[
+    path('patient-report/<str:pk>/', views.patient_report_view, name='patient_report'),
     path('doctor-dashboard', views.doctor_dashboard_view,name='doctor-dashboard'),
     path('search', views.search_view,name='search'),
 

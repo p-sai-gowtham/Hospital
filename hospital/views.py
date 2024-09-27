@@ -889,3 +889,37 @@ def scans(request, patient_id):
     for img in images:
         print(img.report.url)
     return render(request, 'hospital/dicom_index.html',{'images':images})
+
+
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+
+ 
+
+from django.shortcuts import get_object_or_404
+ 
+def generate_patient_report(patient):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{patient.get_name}_report.pdf"'
+
+    p = canvas.Canvas(response, pagesize=letter)
+    width, height = letter
+
+    p.drawString(100, height - 50, f"Patient Report for: {patient.get_name}")
+    p.drawString(100, height - 100, "Test Description:")
+    p.drawString(100, height - 120, patient.test_description or "No description provided.")
+    print(patient.test_description)
+    p.drawString(100, height - 150, "Scans:")
+    print(patient.scans)  
+    p.drawString(100, height - 170, patient.scans or "No scans provided.")
+
+    p.showPage()
+    p.save()
+
+    return response
+
+def patient_report_view(request, pk):
+    patient = get_object_or_404(models.Patient, id=pk)
+    print(patient)  
+    return generate_patient_report(patient)  
