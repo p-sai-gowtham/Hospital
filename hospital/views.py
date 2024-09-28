@@ -362,6 +362,7 @@ def admin_add_patient_view(request):
             patient.user=user
             patient.status='to_do'
             patient.hospital_referred_by=request.user
+            
             patient.save()
 
             reports = request.FILES.getlist('reports')
@@ -921,5 +922,4 @@ def generate_patient_report(patient):
 
 def patient_report_view(request, pk):
     patient = get_object_or_404(models.Patient, id=pk)
-    print(patient)  
     return generate_patient_report(patient)  
