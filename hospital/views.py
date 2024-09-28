@@ -582,20 +582,7 @@ def reject_appointment_view(request,pk):
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
 # #---------------------------------------------------------------------------------
-# @login_required(login_url='doctorlogin')
-# @user_passes_test(is_doctor)
-# def doctor_dashboard_view(request):
-#     #for three cards
-#     patientcount=models.Patient.objects.all().filter(status=True,assigned_doctor_id=request.user).count()
-#     print(patientcount,request.user)    
-#     patientid=[] 
-#     patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
- 
-#     mydict={
-#     'patientcount':patientcount,
-#     'doctor':models.Doctor.objects.get(user_id=request.user.id), #for profile picture of doctor in sidebar
-#     }
-#     return render(request,'hospital/doctor_dashboard.html',context=mydict) 
+
 
 @login_required(login_url='doctorlogin')
 @user_passes_test(is_doctor)
@@ -879,9 +866,7 @@ def contactus_view(request):
 
 
 
-#Developed By : sumit kumar
-#facebook : fb.com/sumit.luv
-#Youtube :youtube.com/lazycoders
+
 
 
 def scans(request, patient_id):
@@ -910,13 +895,16 @@ def generate_patient_report(patient):
     p.drawString(100, height - 50, f"Patient Report for: {patient.get_name}")
     p.drawString(100, height - 100, "Test Description:")
     p.drawString(100, height - 120, patient.test_description or "No description provided.")
-    print(patient.test_description)
     p.drawString(100, height - 150, "Scans:")
-    print(patient.scans)  
     p.drawString(100, height - 170, patient.scans or "No scans provided.")
-
+    # p.drawString(100, height - 200, "Symptoms:")
+    # p.drawString(100, height - 220, patient.symptoms or "No symptoms provided.")
+    # p.drawString(100, height - 250, "Hospital Referred By:")
+    # p.drawString(100, height - 270, patient.hospital_referred_by.first_name)
+    # p.drawString(100, height - 300, "Assigned Doctor:")
+    # p.drawString(100, height - 320, patient.assigned_doctor.first_name)
     p.showPage()
-    p.save()
+    p.save() 
 
     return response
 
